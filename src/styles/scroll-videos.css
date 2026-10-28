@@ -1,0 +1,214 @@
+.scroll-video-scene {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  background-color: var(--obsidian);
+  background-image:
+    radial-gradient(ellipse at 68% 50%, rgba(197, 161, 91, 0.12), transparent 58%),
+    linear-gradient(135deg, rgba(10, 9, 8, 0.92), rgba(20, 15, 11, 0.88));
+  transition: opacity 0.65s ease, visibility 0s linear 0.65s;
+}
+
+.scroll-video-scene.is-active {
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0s;
+}
+
+.scroll-video-scene__video {
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-position: center;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.scroll-video-scene.is-ready .scroll-video-scene__video { opacity: 0.82; }
+.scroll-video-scene__video--cover { object-fit: cover; }
+.scroll-video-scene__video--contain { object-fit: contain; }
+
+.scroll-video-scene--hero .scroll-video-scene__video {
+  left: auto;
+  right: 2vw;
+  width: min(62vw, 820px);
+  object-position: center;
+  mix-blend-mode: screen;
+  mask-image: linear-gradient(to right, transparent, #000 24%, #000 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 24%, #000 90%, transparent);
+}
+
+.scroll-video-scene--hero {
+  background-color: #090807;
+  background-image:
+    radial-gradient(ellipse at 72% 48%, rgba(198, 149, 65, 0.2), transparent 48%),
+    radial-gradient(ellipse at 72% 52%, rgba(72, 39, 19, 0.3), transparent 70%),
+    linear-gradient(110deg, #090807 5%, #15100b 62%, #090807);
+}
+
+.scroll-video-scene--story {
+  background-color: #17100b;
+  background-image:
+    radial-gradient(ellipse at 72% 48%, rgba(220, 147, 53, 0.28), transparent 50%),
+    radial-gradient(ellipse at 44% 64%, rgba(123, 61, 22, 0.25), transparent 64%),
+    linear-gradient(110deg, #0d0a08 4%, #29190e 68%, #110c08);
+}
+.scroll-video-scene--story .scroll-video-scene__video {
+  left: auto;
+  right: 0;
+  width: min(68vw, 980px);
+  mask-image: linear-gradient(to right, transparent, #000 28%, #000 88%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 28%, #000 88%, transparent);
+}
+
+.scroll-video-scene--notes {
+  background-color: #100d0b;
+  background-image:
+    radial-gradient(ellipse at 18% 44%, rgba(185, 143, 52, 0.2), transparent 30%),
+    radial-gradient(ellipse at 48% 58%, rgba(139, 43, 62, 0.18), transparent 36%),
+    radial-gradient(ellipse at 30% 82%, rgba(103, 65, 38, 0.24), transparent 38%),
+    linear-gradient(110deg, #0b0908 2%, #17100f 54%, #0c0908);
+}
+.scroll-video-scene--notes .scroll-video-scene__video {
+  right: auto;
+  width: 54vw;
+  mask-image: linear-gradient(to right, transparent, #000 16%, #000 74%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 16%, #000 74%, transparent);
+}
+
+.scroll-video-scene--craft .scroll-video-scene__video {
+  left: auto;
+  right: 7vw;
+  width: min(58vw, 820px);
+  mask-image: radial-gradient(ellipse at center, #000 44%, transparent 82%);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 44%, transparent 82%);
+}
+
+.scroll-video-scene--craft {
+  background-color: #100c09;
+  background-image:
+    radial-gradient(ellipse at 69% 50%, rgba(231, 173, 79, 0.22), transparent 46%),
+    radial-gradient(ellipse at 61% 65%, rgba(138, 82, 37, 0.2), transparent 68%),
+    linear-gradient(105deg, #0a0908, #21150c 72%, #0a0908);
+}
+
+.scroll-video-scene--collection {
+  background-color: #0b0908;
+  background-image:
+    radial-gradient(ellipse at 50% 50%, rgba(221, 175, 91, 0.24), transparent 38%),
+    radial-gradient(ellipse at 50% 72%, rgba(121, 71, 31, 0.2), transparent 62%),
+    linear-gradient(180deg, #090807, #1a120b 54%, #090807);
+}
+.scroll-video-scene--collection .scroll-video-scene__video {
+  left: 50%;
+  top: 50%;
+  width: min(42vw, 600px);
+  height: 88%;
+  transform: translate(-50%, -50%);
+}
+
+.scroll-video-scene--finale {
+  background-color: #0b0907;
+  background-image:
+    radial-gradient(ellipse at 50% 44%, rgba(225, 168, 77, 0.28), transparent 48%),
+    radial-gradient(ellipse at 50% 70%, rgba(107, 61, 25, 0.24), transparent 70%),
+    linear-gradient(180deg, #090807, #1b120a 55%, #090807);
+}
+.scroll-video-scene--finale .scroll-video-scene__video {
+  opacity: 0;
+  mask-image: radial-gradient(ellipse at center, #000 28%, transparent 84%);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 28%, transparent 84%);
+}
+.scroll-video-scene--finale.is-ready .scroll-video-scene__video { opacity: 0.56; }
+
+@media (max-width: 900px) {
+  .scroll-video-scene--hero .scroll-video-scene__video {
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: min(68svh, 620px);
+    object-fit: contain;
+    mask-image: linear-gradient(to bottom, #000 58%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, #000 58%, transparent);
+  }
+
+  .scroll-video-scene--story .scroll-video-scene__video {
+    width: 100%;
+    height: 76%;
+    mask-image: linear-gradient(to bottom, #000 26%, transparent 98%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 26%, transparent 98%);
+  }
+  .scroll-video-scene--story.is-ready .scroll-video-scene__video { opacity: 0.48; }
+
+  .scroll-video-scene--notes .scroll-video-scene__video {
+    width: 100%;
+    height: 64%;
+    object-fit: contain;
+    mask-image: linear-gradient(to bottom, #000 38%, transparent 98%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 38%, transparent 98%);
+  }
+
+  .scroll-video-scene--craft .scroll-video-scene__video {
+    right: 0;
+    width: 100%;
+    height: 76%;
+    object-fit: contain;
+    mask-image: linear-gradient(to bottom, #000 25%, transparent 98%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 25%, transparent 98%);
+  }
+
+  .scroll-video-scene--collection .scroll-video-scene__video {
+    top: 0;
+    left: 50%;
+    width: 100%;
+    height: 66%;
+    object-fit: contain;
+    transform: translateX(-50%);
+    mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 60%, transparent 100%);
+  }
+
+  .scroll-video-scene--finale .scroll-video-scene__video {
+    mask-image: radial-gradient(ellipse at center, #000 20%, transparent 88%);
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 20%, transparent 88%);
+  }
+}
+
+@media (max-width: 600px) {
+  .scroll-video-scene--hero .scroll-video-scene__video {
+    height: 58svh;
+    object-position: center top;
+  }
+
+  .scroll-video-scene--story .scroll-video-scene__video {
+    height: 66%;
+    object-fit: cover;
+    object-position: center 38%;
+  }
+
+  .scroll-video-scene--notes .scroll-video-scene__video {
+    height: 46%;
+    object-fit: cover;
+    object-position: center 36%;
+  }
+
+  .scroll-video-scene--craft .scroll-video-scene__video {
+    height: 68%;
+    object-position: center 35%;
+  }
+
+  .scroll-video-scene--collection .scroll-video-scene__video {
+    height: 58%;
+    object-position: center 28%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-video-scene,
+  .scroll-video-scene__video { transition: none; }
+}

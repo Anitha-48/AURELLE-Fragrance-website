@@ -1,0 +1,198 @@
+/* ---------- Story (sticky scene) ---------- */
+.story { height: 320vh; height: 320svh; position: relative; }
+.story__stage {
+  position: sticky; top: 0; height: 100vh; height: 100svh;
+  display: flex; align-items: center; padding: 0 var(--pad);
+}
+.story__panel { max-width: 34rem; display: grid; gap: 1.4rem; }
+.story__title {
+  font-family: var(--font-display); font-weight: 300; line-height: 1.02;
+  font-size: clamp(2.4rem, 5.4vw, 4.6rem); margin-bottom: 0.6rem;
+}
+.story__panel p { font-size: 1.02rem; max-width: 30rem; opacity: 0.85; }
+.story__panel .story__sign {
+  font-family: var(--font-display); font-style: italic; font-size: 1.7rem; color: var(--gold); opacity: 1;
+  padding-top: 1rem; border-top: var(--line);
+}
+
+/* ---------- Notes ---------- */
+.notes {
+  position: relative; min-height: 100vh; min-height: 100svh;
+  display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+  padding: 14vh var(--pad);
+}
+.notes__col { grid-column: 2; }
+.notes__intro { margin: 1rem 0 2.4rem; opacity: 0.7; max-width: 26rem; }
+.notes__list { display: grid; gap: 1.1rem; }
+
+.note {
+  display: grid; grid-template-columns: 88px 1fr; gap: 1.6rem; align-items: start; width: 100%;
+  padding: 1.4rem 1.6rem; text-align: left; border: 1px solid rgba(197, 161, 91, 0.25);
+  background: linear-gradient(135deg, rgba(10, 9, 8, 0.55), rgba(54, 37, 31, 0.35));
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), border-color 0.4s, box-shadow 0.5s;
+}
+.note__art { width: 88px; height: 88px; animation: float 6s ease-in-out infinite; }
+.note:nth-child(2) .note__art { animation-delay: -2s; }
+.js-note:nth-child(2) .note__art { animation-delay: -2s; }
+.js-note:nth-child(3) .note__art { animation-delay: -4s; }
+.note__body { display: grid; gap: 0.15rem; }
+.note__stage { font-size: 0.68rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); }
+.note__name { font-family: var(--font-display); font-size: 2rem; line-height: 1.1; font-weight: 400; }
+.note__line { opacity: 0.78; }
+.note__more {
+  display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.55s ease;
+}
+.note__more-inner { overflow: hidden; font-size: 0.92rem; opacity: 0; transition: opacity 0.5s; padding-top: 0; }
+.note.is-open { border-color: var(--gold); }
+.note.is-open .note__more, .note:focus-visible .note__more { grid-template-rows: 1fr; }
+.note.is-open .note__more-inner, .note:focus-visible .note__more-inner { opacity: 0.85; padding-top: 0.8rem; }
+@media (hover: hover) {
+  .note:hover { transform: translateY(-8px); border-color: var(--gold); box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55), 0 0 40px rgba(197, 161, 91, 0.12); }
+  .note:hover .note__more { grid-template-rows: 1fr; }
+  .note:hover .note__more-inner { opacity: 0.85; padding-top: 0.8rem; }
+}
+
+/* ---------- Craftsmanship (sticky stage + hotspots) ---------- */
+.craft { height: 320vh; height: 320svh; position: relative; }
+.craft__stage { position: sticky; top: 0; height: 100vh; height: 100svh; }
+.craft__head { position: absolute; left: var(--pad); top: 16vh; max-width: 22rem; }
+.craft__hint { margin-top: 1rem; font-size: 0.85rem; opacity: 0.65; }
+
+.hotspot-layer { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.6s; }
+.hotspot-layer.is-live { opacity: 1; }
+.hotspot { position: absolute; left: 50%; top: 50%; width: 0; height: 0; }
+.hotspot__dot {
+  position: absolute; left: -22px; top: -22px; width: 44px; height: 44px; pointer-events: auto;
+  border-radius: 50%; border: 1px solid var(--gold); background: rgba(10, 9, 8, 0.5);
+  transition: background 0.3s, transform 0.3s;
+}
+.hotspot__dot::before {
+  content: ''; position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; margin: -4px 0 0 -4px;
+  border-radius: 50%; background: var(--gold);
+}
+.hotspot__dot::after {
+  content: ''; position: absolute; inset: -1px; border-radius: 50%; border: 1px solid var(--gold);
+  animation: pulse 2.6s ease-out infinite;
+}
+.hotspot.is-open .hotspot__dot { background: rgba(197, 161, 91, 0.25); transform: scale(1.12); }
+
+.hotspot__label {
+  position: absolute; top: 0; width: min(22rem, 30vw); padding: 1.1rem 1.3rem; pointer-events: none;
+  transform: translateY(-50%); background: rgba(10, 9, 8, 0.78); border: var(--line);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0.4s;
+}
+.hotspot__label::before {
+  content: ''; position: absolute; top: 50%; width: 64px; height: 1px; background: var(--gold);
+}
+.hotspot--right .hotspot__label { left: 86px; }
+.hotspot--right .hotspot__label::before { right: 100%; }
+.hotspot--left .hotspot__label { right: 86px; }
+.hotspot--left .hotspot__label::before { left: 100%; }
+.hotspot__label h3 { font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; line-height: 1.1; }
+.hotspot__label p { margin-top: 0.4rem; font-size: 0.88rem; opacity: 0.8; line-height: 1.55; }
+.hotspot.is-open .hotspot__label { opacity: 1; visibility: visible; }
+
+@media (max-width: 760px) {
+  .craft__head { top: 11vh; right: var(--pad); max-width: none; }
+  .hotspot__label {
+    position: fixed; left: var(--pad); right: var(--pad); bottom: 5svh; top: auto; width: auto; transform: none;
+  }
+  .hotspot__label::before { display: none; }
+  .hotspot--right .hotspot__label, .hotspot--left .hotspot__label { left: var(--pad); right: var(--pad); }
+}
+
+/* ---------- Showcase ---------- */
+.showcase {
+  position: relative; min-height: 100vh; min-height: 100svh;
+  display: grid; grid-template-columns: 1fr minmax(16rem, 30vw) 1fr; gap: 2rem; align-items: center;
+  padding: 12vh var(--pad);
+}
+.showcase__left { grid-column: 1; max-width: 26rem; }
+.showcase__right { grid-column: 3; justify-self: end; text-align: right; display: grid; gap: 2rem; justify-items: end; }
+.showcase__name {
+  font-family: var(--font-display); font-weight: 300; line-height: 1; letter-spacing: 0.04em;
+  font-size: clamp(2.6rem, 5vw, 4.4rem);
+}
+.showcase__sub { margin-top: 0.7rem; color: var(--gold); font-size: 0.78rem; letter-spacing: 0.24em; text-transform: uppercase; }
+.showcase__desc { margin-top: 1.8rem; opacity: 0.82; }
+.showcase__price { display: grid; gap: 0.2rem; }
+.showcase__price span { font-family: var(--font-display); font-size: clamp(3rem, 5vw, 4.4rem); line-height: 1; }
+.showcase__price small { font-size: 0.7rem; letter-spacing: 0.24em; text-transform: uppercase; opacity: 0.6; }
+
+@media (max-width: 900px) {
+  .showcase { grid-template-columns: 1fr; padding-top: 52svh; align-content: end; gap: 2rem; }
+  .showcase__left, .showcase__right { grid-column: 1; max-width: none; justify-self: stretch; text-align: left; justify-items: start; }
+  .showcase::before {
+    content: ''; position: absolute; inset: 35% 0 0 0; z-index: -1; pointer-events: none;
+    background: linear-gradient(to top, rgba(10, 9, 8, 0.9) 35%, rgba(10, 9, 8, 0));
+  }
+  .showcase { isolation: isolate; }
+}
+
+/* ---------- Finale ---------- */
+.finale {
+  position: relative; min-height: 80vh; min-height: 80svh; display: grid; place-content: center; justify-items: center;
+  text-align: center; padding: 14vh var(--pad); gap: 1.2rem;
+}
+.finale__title { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.4rem, 6.4vw, 5.6rem); line-height: 1.04; max-width: 14ch; }
+.finale__copy { opacity: 0.75; margin-bottom: 1rem; }
+.finale__form { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; width: min(100%, 36rem); }
+.finale__form input {
+  flex: 1 1 14rem; min-width: 0; padding: 1rem 1.2rem; background: transparent; border: 1px solid rgba(244, 235, 221, 0.3);
+  transition: border-color 0.3s;
+}
+.finale__form input::placeholder { color: rgba(244, 235, 221, 0.45); }
+.finale__form input:focus { outline: none; border-color: var(--gold); }
+.finale__form input[aria-invalid='true'] { border-color: #d98a7a; }
+.finale__msg { min-height: 1.6em; font-size: 0.9rem; color: var(--gold); }
+
+/* ---------- Footer ---------- */
+.footer {
+  position: relative; z-index: 3; background: var(--obsidian); border-top: var(--line);
+  padding: 4.5rem var(--pad) calc(2rem + env(safe-area-inset-bottom));
+}
+.footer__inner { display: flex; flex-wrap: wrap; gap: 3rem; justify-content: space-between; }
+.footer__logo { font-family: var(--font-display); font-size: 2rem; letter-spacing: 0.34em; }
+.footer__tag { margin-top: 0.4rem; font-family: var(--font-display); font-style: italic; opacity: 0.7; font-size: 1.15rem; }
+.footer__links { display: grid; gap: 0.5rem; align-content: start; }
+.footer__links a { font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.75; transition: opacity 0.3s, color 0.3s; }
+.footer__links a:hover { opacity: 1; color: var(--gold); }
+.footer__legal { margin-top: 3.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(244, 235, 221, 0.12); font-size: 0.75rem; opacity: 0.5; }
+
+/* ---------- Tablet / mobile section tweaks ---------- */
+@media (max-width: 900px) {
+  .story { height: 280vh; height: 280svh; }
+  .story__stage { align-items: flex-end; padding-bottom: 7svh; }
+  .story__panel {
+    max-width: none; padding: 1.5rem; gap: 1rem; border: var(--line);
+    background: linear-gradient(to top, rgba(10, 9, 8, 0.88), rgba(10, 9, 8, 0.6));
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  }
+  .story__title { font-size: clamp(2rem, 8vw, 2.8rem); }
+  .story__panel p { font-size: 0.95rem; }
+  .notes { grid-template-columns: 1fr; padding-top: 16vh; }
+  .notes__col { grid-column: 1; }
+  .note { grid-template-columns: 64px 1fr; gap: 1.1rem; padding: 1.1rem; }
+  .note__art { width: 64px; height: 64px; }
+  .note__name { font-size: 1.7rem; }
+}
+
+@media (max-width: 600px) {
+  .story { height: 220svh; }
+  .story__panel { gap: 0.8rem; padding: 1.1rem; }
+  .story__panel p { font-size: 0.9rem; }
+  .story__panel .story__sign { font-size: 1.4rem; }
+  .notes { padding: 15vh var(--pad) 10vh; }
+  .notes__intro { margin-bottom: 1.6rem; }
+  .note { grid-template-columns: 52px minmax(0, 1fr); gap: 0.9rem; padding: 0.9rem; }
+  .note__art { width: 52px; height: 52px; }
+  .note__name { font-size: 1.55rem; }
+  .note__line { font-size: 0.88rem; }
+  .note__more-inner { font-size: 0.82rem; }
+  .craft { height: 220svh; }
+  .craft__head { top: 10svh; }
+  .showcase { padding-top: 44svh; }
+  .finale { padding: 12svh var(--pad); }
+}
